@@ -1,5 +1,5 @@
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import ChatLoginModal from '@/components/Chat/ChatLoginModal.vue';
 import ChatMessages from '@/components/Chat/ChatMessages.vue';
 import ChatForm from '@/components/Chat/ChatForm.vue';
@@ -12,6 +12,7 @@ export default {
     ChatForm,
   },
   setup() {
+    const subscriptionChat = ref(undefined);
     const username = ref('');
     const isLogged = ref('');
     const messages = ref([]);
@@ -63,11 +64,32 @@ export default {
       message.value = '';
     };
 
+    const subscribeChat = async (e) => {
+      subscriptionChat.value = await supabase
+        .from('messages')
+        .on('INSERT', (message) => {
+          if (message.new) {
+            const _message = message.new; // rename to avoid variable collision
+            messages.value.push({
+              username: username.value === _message.username ? 'Yo' : _message.username,
+              message: _message.message,
+            });
+          }
+        })
+        .subscribe();
+    };
+
     onMounted(async () => {
       username.value = window.localStorage.getItem('username');
       isLogged.value = Boolean(username.value);
 
       await getMessages();
+      await subscribeChat();
+    });
+
+    onUnmounted(() => {
+      // unsubscribe when component is unmounted
+      subscriptionChat.value = undefined;
     });
 
     return {
