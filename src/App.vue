@@ -53,6 +53,14 @@ export default {
 
     const sendMessage = async (e) => {
       e.preventDefault();
+
+      await supabase.from('messages').insert({
+        username: username.value,
+        message: message.value,
+      });
+
+      // clean input form message after send message
+      message.value = '';
     };
 
     onMounted(async () => {
