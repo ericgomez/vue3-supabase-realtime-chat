@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue';
 import ChatLoginModal from '@/components/Chat/ChatLoginModal.vue';
 import ChatMessages from '@/components/Chat/ChatMessages.vue';
 import ChatForm from '@/components/Chat/ChatForm.vue';
+import { supabase } from '@/utils/supabase';
 
 export default {
   components: {
@@ -27,13 +28,38 @@ export default {
       }
     };
 
+    const getMessages = async () => {
+      try {
+        let { data, error } = await supabase.from('messages').select(`id, username, message`).order('id', {
+          ascending: true,
+        });
+
+        if (error) throw error;
+
+        messages.value = [];
+
+        if (data.length) {
+          data.forEach((message) => {
+            messages.value.push({
+              username: username.value === message.username ? 'Yo' : message.username,
+              message: message.message,
+            });
+          });
+        }
+      } catch (e) {
+        alert(e.message);
+      }
+    };
+
     const sendMessage = async (e) => {
       e.preventDefault();
     };
 
-    onMounted(() => {
+    onMounted(async () => {
       username.value = window.localStorage.getItem('username');
       isLogged.value = Boolean(username.value);
+
+      await getMessages();
     });
 
     return {
