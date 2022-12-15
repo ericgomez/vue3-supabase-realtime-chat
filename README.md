@@ -53,6 +53,21 @@ Using Postgres's "Row-Level-Security" policies, we can set rules on what data th
 
 `Supabase Dashboard` > `Autenticacion` > `Policies`
 
+## Create new Policies
+
+`Supabase Dashboard` > `Autenticacion` > `Policies` > Select Table > `New Policy`
+Policies are easy to understand once you get the hang of them. Each policy is attached to a table, and the policy is executed every time a table is accessed. You can just think of them as adding a WHERE clause to every query.
+
+#### Add select policy to display chat messages
+
+After selecting `New Policy`, add the name and select operation allowed as `SELECT` and add script.
+
+- Get messages posted 30 minutes ago so far
+
+```shell
+(inserted_at >= (now() - '00:30:00'::interval))
+```
+
 ## Project Setup
 
 ```sh
