@@ -45,6 +45,14 @@ commit;
 alter publication supabase_realtime add table public.messages;
 ```
 
+## Row-Level Security (RLS) in Supabase database
+
+Using Postgres's "Row-Level-Security" policies, we can set rules on what data the anon key is allowed or not allowed to access by default.
+
+#### Enable RLS
+
+`Supabase Dashboard` > `Autenticacion` > `Policies`
+
 ## Project Setup
 
 ```sh
