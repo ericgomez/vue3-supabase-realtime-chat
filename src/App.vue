@@ -2,16 +2,19 @@
 import { ref, onMounted } from 'vue';
 import ChatLoginModal from '@/components/Chat/ChatLoginModal.vue';
 import ChatMessages from '@/components/Chat/ChatMessages.vue';
+import ChatForm from '@/components/Chat/ChatForm.vue';
 
 export default {
   components: {
     ChatLoginModal,
     ChatMessages,
+    ChatForm,
   },
   setup() {
     const username = ref('');
     const isLogged = ref('');
     const messages = ref([]);
+    const message = ref('');
 
     const login = (e) => {
       e.preventDefault();
@@ -24,6 +27,10 @@ export default {
       }
     };
 
+    const sendMessage = async (e) => {
+      e.preventDefault();
+    };
+
     onMounted(() => {
       username.value = window.localStorage.getItem('username');
       isLogged.value = Boolean(username.value);
@@ -33,7 +40,9 @@ export default {
       username,
       isLogged,
       messages,
+      message,
       login,
+      sendMessage,
     };
   },
 };
@@ -44,5 +53,7 @@ export default {
     <chat-login-modal v-if="!isLogged" v-model:username="username" @onSubmit="login" />
 
     <chat-messages v-if="isLogged" :messages="messages" />
+
+    <chat-form v-if="isLogged" v-model:message="message" @onSendMessage="sendMessage" />
   </div>
 </template>
