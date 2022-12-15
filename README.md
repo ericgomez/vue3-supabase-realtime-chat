@@ -1,14 +1,21 @@
-# vue3-supabase-realtime-chat
+# Vue3 Supabase Realtime Chat
 
 This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
+## Installation of dependencies: (Supabase v1)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Supabase is an open source Firebase alternative providing all the backend features you need to build a product.
 
-## Customize configuration
+```sh
+npm install @supabase/supabase-js@1
+```
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Install Tailwind CSS
+
+```sh
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
 
 ## Project Setup
 
