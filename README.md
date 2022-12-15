@@ -60,12 +60,20 @@ Policies are easy to understand once you get the hang of them. Each policy is at
 
 #### Add select policy to display chat messages
 
-After selecting `New Policy`, add the name and select operation allowed as `SELECT` and add script.
+Get messages posted 30 minutes ago so far
 
-- Get messages posted 30 minutes ago so far
+- After selecting `New Policy`, add the name and select operation allowed as `SELECT` and add script.
 
 ```shell
 (inserted_at >= (now() - '00:30:00'::interval))
+```
+
+Add policy insert to allow inserting messages
+
+- After selecting `New Policy`, add the name and select operation allowed as `INSERT` and add script.
+
+```shell
+true
 ```
 
 ## Project Setup
