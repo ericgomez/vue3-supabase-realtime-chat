@@ -1,14 +1,17 @@
 <script>
 import { ref, onMounted } from 'vue';
-import ChatLoginModal from './components/Chat/ChatLoginModal.vue';
+import ChatLoginModal from '@/components/Chat/ChatLoginModal.vue';
+import ChatMessages from '@/components/Chat/ChatMessages.vue';
 
 export default {
   components: {
     ChatLoginModal,
+    ChatMessages,
   },
   setup() {
     const username = ref('');
     const isLogged = ref('');
+    const messages = ref([]);
 
     const login = (e) => {
       e.preventDefault();
@@ -29,6 +32,7 @@ export default {
     return {
       username,
       isLogged,
+      messages,
       login,
     };
   },
@@ -36,5 +40,9 @@ export default {
 </script>
 
 <template>
-  <chat-login-modal v-if="!isLogged" v-model:username="username" @onSubmit="login" />
+  <div class="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen">
+    <chat-login-modal v-if="!isLogged" v-model:username="username" @onSubmit="login" />
+
+    <chat-messages v-if="isLogged" :messages="messages" />
+  </div>
 </template>
